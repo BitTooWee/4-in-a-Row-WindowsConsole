@@ -1,4 +1,4 @@
 ﻿  4-In-A-Row-WindowsConsole.cpp
-C:\Users\Markv\source\repos\4-In-A-Row-WindowsConsole\4-In-A-Row-WindowsConsole\4-In-A-Row-WindowsConsole.cpp(147,32): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-C:\Users\Markv\source\repos\4-In-A-Row-WindowsConsole\4-In-A-Row-WindowsConsole\4-In-A-Row-WindowsConsole.cpp(148,32): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Markv\source\repos\4-In-A-Row-WindowsConsole\4-In-A-Row-WindowsConsole\4-In-A-Row-WindowsConsole.cpp(131,32): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Markv\source\repos\4-In-A-Row-WindowsConsole\4-In-A-Row-WindowsConsole\4-In-A-Row-WindowsConsole.cpp(132,32): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
   4-In-A-Row-WindowsConsole.vcxproj -> C:\Users\Markv\source\repos\4-In-A-Row-WindowsConsole\x64\Debug\4-In-A-Row-WindowsConsole.exe

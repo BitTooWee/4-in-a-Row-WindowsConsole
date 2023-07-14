@@ -102,22 +102,6 @@ void Setup() {
     FontSize(Size);
 }
 
-void RenderScreen(string printstring) {
-    ClearScreen();
-
-    auto Start = system_clock::now();
-
-    for (int n = 0; n < Screensize[1]; n++) {
-        int Pos = Screensize[0] * (n + 1) + n;
-        printstring.insert(Pos, "\n");
-    }
-
-    cout << printstring;
-
-    duration<double> duration = system_clock::now() - Start;
-    cout << "time: " + to_string(duration.count() * 1000) + " ms ";
-}
-
 int Clamp(int min, int max, int num) {
     if (num < min) {
         num = min;
@@ -170,6 +154,117 @@ void InputLogic() {
 }
 
 
+char CheckforWin() {
+    //Check horizontals
+    for (int y = 0; y < Screensize[1]; y++) {
+        int Pos[2] = { 0,y};
+        string Temp;
+        Temp += CheckScreen(Pos);
+        for (int x = 1; x < Screensize[0]; x++) {
+            int Pos[2] = { x,y };
+            if (CheckScreen(Pos) == Temp[0]) {
+                Temp += Temp[0];
+                if (Temp.size() >= 4 && (Temp[0] == 'X' || Temp[0] == 'O')) {
+                    return Temp[0];
+                }
+            }
+            else {
+                Temp = "";
+                Temp += CheckScreen(Pos);
+            }
+        }
+    }
+    //Check verticals
+    for (int x = 0; x < Screensize[0]; x++) {
+        int Pos[2] = { x,0 };
+        string Temp;
+        Temp += CheckScreen(Pos);
+        for (int y = 1; y < Screensize[1]; y++) {
+            int Pos[2] = { x,y };
+            if (CheckScreen(Pos) == Temp[0]) {
+                Temp += Temp[0];
+                if (Temp.size() >= 4 && (Temp[0] == 'X' || Temp[0] == 'O')) {
+                    return Temp[0];
+                }
+            }
+            else {
+                Temp = "";
+                Temp += CheckScreen(Pos);
+            }
+        }
+    }
+    //Check diagonal up
+    for (int n = 0; n < Screensize[0] + Screensize[1] - 1; n++) {
+        int Pos[2] = { Clamp(0,Screensize[0] - 1,n),Clamp(0,Screensize[1] - 1, n - Screensize[0] - 1)};
+        string Temp;
+        for (int m = 0; m < Screensize[0] * Screensize[1];m++ ) { //Very bad practice
+            if (CheckScreen(Pos) == Temp[0]) {
+                Temp += Temp[0];
+                if (Temp.size() >= 4 && (Temp[0] == 'X' || Temp[0] == 'O')) {
+                    return Temp[0];
+                }
+            }
+            else {
+                Temp = "";
+                Temp += CheckScreen(Pos);
+            }
+
+            Pos[0] -= 1;
+            Pos[1] += 1;
+            if (Pos[0] < 0) {
+                break;
+            }
+            if (Pos[1] > Screensize[1] - 1) {
+                break;
+            }
+        }
+    }
+    //Check diagonal down
+    for (int n = 0; n < Screensize[0] + Screensize[1] - 1; n++) {
+        int Pos[2] = { Clamp(0,Screensize[0] - 1, n - Screensize[1] - 1),Clamp(0,Screensize[1] - 1, n) };
+        string Temp;
+        for (int m = 0; m < Screensize[0] * Screensize[1]; m++) { //Very bad practice
+            if (CheckScreen(Pos) == Temp[0]) {
+                Temp += Temp[0];
+                if (Temp.size() >= 4 && (Temp[0] == 'X' || Temp[0] == 'O')) {
+                    return Temp[0];
+                }
+            }
+            else {
+                Temp = "";
+                Temp += CheckScreen(Pos);
+            }
+
+            Pos[0] += 1;
+            Pos[1] += 1;
+            if (Pos[0] > Screensize[0] - 1) {
+                break;
+            }
+            if (Pos[1] > Screensize[1] - 1) {
+                break;
+            }
+        }
+    } 
+    return ' ';
+}
+
+void RenderScreen(string printstring) {
+    ClearScreen();
+
+    auto Start = system_clock::now();
+
+    for (int n = 0; n < Screensize[1]; n++) {
+        int Pos = Screensize[0] * (n + 1) + n;
+        printstring.insert(Pos, "\n");
+    }
+
+    cout << printstring;
+
+    duration<double> duration = system_clock::now() - Start;
+    cout << "time: " + to_string(duration.count() * 1000) + " ms \n";
+    cout << "Winner: ";
+    cout << CheckforWin();
+}
 
 void ExitLogic() {
     ShowConsoleCursor(true);
@@ -186,10 +281,11 @@ int main()
         InputLogic();
 
         //Game logic
-
+        
 
         //Graphics logic
         RenderScreen(Screen);
+        
     }
 
     //Exit game
